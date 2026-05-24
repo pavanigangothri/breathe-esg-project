@@ -1,0 +1,4 @@
+category,scope,activity_value,activity_unit,co2e_kg
+Fuel,SCOPE_1,500,Liters,1340
+Diesel,SCOPE_1,-100,Liters,900
+Petrol,SCOPE_1,200,Liters,600
