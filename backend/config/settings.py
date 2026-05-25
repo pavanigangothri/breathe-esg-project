@@ -3,11 +3,12 @@ Django settings for config project.
 """
 
 from pathlib import Path
+import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # ---------------- SECURITY ----------------
-SECRET_KEY = 'django-insecure-!rux@*1mxshx@pcz&y*y!%u$_9@owrtg$--j(xzi*6zbpy+t$%'
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-fallback-key")
 
 DEBUG = False
 
@@ -28,7 +29,7 @@ INSTALLED_APPS = [
 
     # Third-party apps
     'rest_framework',
-    'corsheaders',   # ✅ REQUIRED
+    'corsheaders',
 
     # Local apps
     'ingestion',
@@ -36,7 +37,7 @@ INSTALLED_APPS = [
 
 # ---------------- MIDDLEWARE ----------------
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # ✅ MUST BE FIRST
+    'corsheaders.middleware.CorsMiddleware',
 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -104,3 +105,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ---------------- CORS ----------------
 CORS_ALLOW_ALL_ORIGINS = True
+
+# ---------------- CSRF (Render + React FIX) ----------------
+CSRF_TRUSTED_ORIGINS = [
+    "https://breathe-esg-project.onrender.com",
+]
