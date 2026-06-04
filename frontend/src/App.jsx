@@ -6,12 +6,17 @@ function App() {
   const [emissions, setEmissions] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
 
+  // ✅ BASE URL (LIVE BACKEND)
+  const BASE_URL = "https://breathe-esg-project.onrender.com/api";
+
   // ================= FETCH EMISSIONS =================
   const fetchEmissions = async () => {
     try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/emissions/"
-      );
+      const response = await axios.get(`${BASE_URL}/emissions/`);
+
+      // 🟢 DEBUG LOG (IMPORTANT)
+      console.log("EMISSIONS DATA:", response.data);
+
       setEmissions(response.data);
     } catch (error) {
       console.error("Error fetching emissions:", error);
@@ -21,9 +26,11 @@ function App() {
   // ================= FETCH AUDIT LOGS =================
   const fetchAuditLogs = async () => {
     try {
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/audit-logs/"
-      );
+      const response = await axios.get(`${BASE_URL}/audit-logs/`);
+
+      // 🟢 DEBUG LOG (OPTIONAL BUT GOOD)
+      console.log("AUDIT LOGS DATA:", response.data);
+
       setAuditLogs(response.data);
     } catch (error) {
       console.error("Audit log error:", error);
@@ -50,10 +57,7 @@ function App() {
     formData.append("file", selectedFile);
 
     try {
-      await axios.post(
-        "http://127.0.0.1:8000/api/upload-sap/",
-        formData
-      );
+      await axios.post(`${BASE_URL}/upload-sap/`, formData);
 
       alert("CSV uploaded successfully");
 
@@ -68,7 +72,7 @@ function App() {
   const updateStatus = async (id, status) => {
     try {
       await axios.post(
-        `http://127.0.0.1:8000/api/emissions/${id}/update-status/`,
+        `${BASE_URL}/emissions/${id}/update-status/`,
         { status }
       );
 
@@ -98,7 +102,7 @@ function App() {
     <div style={{ padding: "30px", fontFamily: "Arial" }}>
       <h1>Breathe ESG Dashboard</h1>
 
-      {/* STATS CARDS */}
+      {/* STATS */}
       <div style={{ display: "flex", gap: "20px", marginTop: "20px", marginBottom: "30px" }}>
         <div style={{ border: "1px solid gray", padding: "20px", borderRadius: "10px", width: "180px" }}>
           <h3>Total</h3>
